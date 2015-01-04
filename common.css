@@ -2,6 +2,7 @@ html,body,div,ul,ol,li,dl,dt,dd,h1,h2,h3,h4,h5,pre,form,p,blockquote,input,abbr,
 ul,ol{list-style:none;}
 iframe,a,img,button{border:0;font-family: 'Microsoft YaHei';}
 table{border-collapse:collapse;border-spacing:0;}
+section,div,img,a{-webkit-tap-highlight-color:transparent;}
 article,aside,footer,header,hgroup,nav,section,figure,figcaption{display:block;}
 a{text-decoration:none;}
 a:hover{text-decoration:underline;}
@@ -17,9 +18,10 @@ body{font:12px/24px 'Microsoft YaHei';}
 em,i{font-style:normal}
 /* page */
 body,html{
-	background: #fff;
+	background: #000;
 	height: 100%;
 	width: 100%;
+    position: absolute;
 }
 /* loading */
 .loading{
@@ -51,22 +53,36 @@ body,html{
     background: -ms-linear-gradient(#72a8ea, #003e8a);
     background: linear-gradient(#72a8ea, #003e8a);
 }
-article{height: 100%}
+article{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    margin: 0;
+    top: 0;
+    overflow: hidden;
+}
+article .keyFrame{
+    -webkit-transform:translateY(-100%);
+}
 article .in{
     -webkit-transform:translateY(0);
 }
-article .out{
+.in ~ .keyFrame{
     -webkit-transform:translateY(100%);
 }
-.scene1,.scene2{
+article .out{
+    /*-webkit-transform:translateY(100%);*/
+}
+.scene1,.scene2,.scene3{
     left: 0;
     top: 0;
     bottom: 0;
     position: absolute;
 	width: 100%;
-    -webkit-transform:translateY(100%);
     height: 100%;
-    /*-webkit-transition:-webkit-transform .5s ease-out;*/
+    -webkit-transition:-webkit-transform .5s ease-out;
     overflow: hidden;
 }
 .scene1{
@@ -80,29 +96,27 @@ article .out{
     height: 140px;
     line-height: 140px;
     font-size: 16px;
+    -webkit-transition:-webkit-transform .5s ease-out;
     color: #fff;
     border: 1px solid #E80000;
     background-color: #E80000;
     border-radius: 100%;
 }
-.scene1 h3.animated{
-    -webkit-animation-duration:2s;
+.scene1 h3{-webkit-transform:translate(-200%,0);}
+.scene1 .left-side{-webkit-transform:translate(-200%,0);}
+.scene1 .right-side{-webkit-transform:translate(200%,0);}
+.scene1.play h3,.scene1.play .left-side,.scene1.play .right-side{
+    -webkit-transform:translate(0,0);
 }
 .scene1 .left-side{
     float: left;
     background-color: #FF690D;
     border-color: #FF690D;
 }
-.scene1 .left-side.animated{
-    -webkit-animation-duration:2.2s;
-}
 .scene1 .right-side{
     float: right;
     border-color: #FFD618;
     background-color: #FFD618;
-}
-.scene1 .right-side.animated{
-    -webkit-animation-duration:2.5s;
 }
 #btn1{
     position: absolute;
@@ -117,6 +131,25 @@ article .out{
 }
 
 .scene2{
-    background: url(z2.jpg) 0 0 no-repeat;
+    background: url(z2.jpg) center 0 no-repeat;
+    background-size: cover;
+}
+@-webkit-keyframes showHeight{
+    0%{opacity:0;height:0;}100%{opacity:1;height:200px;}
+}
+.scene2 .tlt{
+    opacity: 0;
+    font-size: 20px;
+    color: rgb(4,11,39);
+    -webkit-transform:translate3D(0,0,0);
+    -webkit-animation-name:showHeight;
+    -webkit-animation-duration:5s;
+    -webkit-animation-fill-mode:both;
+    -webkit-animation-delay:1s;
+    text-indent: -999em;
+    background: url(http://ossweb-img.qq.com/images/wuxia/act/a20141202bigdata/end.png) no-repeat 0 0;
+}
+.scene3{
+    background: url(z3.jpg) center 0 no-repeat;
     background-size: cover;
 }

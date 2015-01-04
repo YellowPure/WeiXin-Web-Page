@@ -83,6 +83,8 @@ var yellow = {
 
 var loadPanel = document.querySelector('.loading');
 var scene1 = document.querySelector('.scene1');
+var scene2 = document.querySelector('.scene2');
+var scene3 = document.querySelector('.scene3');
 var scene1_title = document.querySelector('.scene1 h3');
 var scene1_left_side = document.querySelector('.scene1 .left-side');
 var scene1_right_side = document.querySelector('.scene1 .right-side');
@@ -90,36 +92,16 @@ var startTouches={};
 var endTouches={};
 var delay={};
 var curPage={};
-var nextPage={};
-var prevPage={};
+var totalPage=[scene1,scene2,scene3];
 
 function startScene() {
 	loadPanel.style.display = 'none';
-	yellow.addClass(scene1,'in');
-	yellow.addClass(scene1_title, 'fadeInDown');
-	yellow.addClass(scene1_title, 'animated');
-	yellow.addClass(scene1_left_side, 'fadeInLeft');
-	yellow.addClass(scene1_left_side, 'animated');
-	yellow.addClass(scene1_right_side, 'fadeInRight');
-	yellow.addClass(scene1_right_side, 'animated');
+	curPage.pageNum=0;
+	yellow.addClass(scene1,'play');
 	addEvent();
-
-	
 }
 
 function addEvent(){
-	scene1_title.addEventListener('webkitAnimationEnd', function() {
-		yellow.removeClass(scene1_title, 'fadeInDown');
-		yellow.removeClass(scene1_title, 'animated');
-	});
-	scene1_left_side.addEventListener('webkitAnimationEnd', function() {
-		yellow.removeClass(scene1_title, 'fadeInLeft');
-		yellow.removeClass(scene1_title, 'animated');
-	});
-	scene1_right_side.addEventListener('webkitAnimationEnd', function() {
-		yellow.removeClass(scene1_title, 'fadeInRight');
-		yellow.removeClass(scene1_title, 'animated');
-	});
 	window.addEventListener('touchstart',onTouchStart);
 }
 function onTouchStart(e){
@@ -137,10 +119,38 @@ function onTouchEnd(e){
 	if(delay.y<0){
 		console.log('scroll up');
 		next();
+	}else if(delay.y>0){
+		console.log('scroll down');
+		prev();
 	}	
 }
+function prev(){
+	var prevOne=totalPage[curPage.pageNum];
+	yellow.removeClass(totalPage[curPage.pageNum],'in');
+	curPage.pageNum--;
+	if(curPage.pageNum<0){
+		curPage.pageNum=0;
+	}
+	var curOne=totalPage[curPage.pageNum];
+	yellow.addClass(totalPage[curPage.pageNum],'in');
+	setTimeout(function(){
+		yellow.removeClass(prevOne,'play');
+		yellow.addClass(curOne,'play');
+	},500);
+}
 function next(){
-
+	var prevOne=totalPage[curPage.pageNum];
+	yellow.removeClass(totalPage[curPage.pageNum],'in');
+	curPage.pageNum++;
+	if(curPage.pageNum>totalPage.length-1){
+		curPage.pageNum=totalPage.length-1;
+	}
+	var curOne=totalPage[curPage.pageNum];
+	yellow.addClass(totalPage[curPage.pageNum],'in');
+	setTimeout(function(){
+		yellow.removeClass(prevOne,'play');
+		yellow.addClass(curOne,'play');
+	},500);
 }
 yellow.preload([
 	"http://p2.youxi.bdimg.com/site/wx/images/dtszj-bg.jpg",
