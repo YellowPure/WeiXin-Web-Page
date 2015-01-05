@@ -93,16 +93,50 @@ var endTouches={};
 var delay={};
 var curPage={};
 var totalPage=[scene1,scene2,scene3];
+var isTurnPage=false;
+var SHAKE_THRESHOLD=3000;
+var shake_last_time=0;
+var shake={x:0,y:0,z:0};
+var last_shake={x:0,y:0,z:0};
+var shake_count=0;
 
 function startScene() {
 	loadPanel.style.display = 'none';
 	curPage.pageNum=0;
 	yellow.addClass(scene1,'play');
 	addEvent();
+	
 }
+function deviceMotionHandler(e){
+	var acceleration=e.accelerationIncludingGravity;
 
+	var curTime=new Date().getTime();
+	var diffTime=curTime=shake_last_time;
+	console.log('start devicemotion');
+	if(diffTime>100){
+		shake_last_time=curTime;
+
+		shake.x=acceleration.x;
+		shake.y=acceleration.y;
+		shake.z=acceleration.z;
+
+		var speed=Math.abs(shake.x+shake.y+shake.z - last_shake.x - last_shake.y - last_shake.z)/diffTime*10000;
+		if(speed>SHAKE_THRESHOLD){
+			shake_count++;
+			document.querySelector('.shake_count').textContent=shake_count.toString();
+		}
+		last_shake.x=shake.x;
+		last_shake.y=shake.y;
+		last_shake.z=shake.z;
+	}
+}
 function addEvent(){
 	window.addEventListener('touchstart',onTouchStart);
+	if(window.DeviceMotionEvent){
+		window.addEventListener('devicemotion',deviceMotionHandler,false);
+	}else{
+		alert('不支持 传感器');
+	}
 }
 function onTouchStart(e){
 	startTouches.x=e.touches[0].pageX;
@@ -116,13 +150,16 @@ function onTouchMove(e){
 	delay.y=e.touches[0].pageY - startTouches.y;
 }
 function onTouchEnd(e){
-	if(delay.y<0){
-		console.log('scroll up');
-		next();
-	}else if(delay.y>0){
-		console.log('scroll down');
-		prev();
-	}	
+	if(Math.abs(delay.y)>36&&isTurnPage===false){
+		if(delay.y<0){
+			console.log('scroll up');
+			next();
+		}else if(delay.y>0){
+			console.log('scroll down');
+			prev();
+		}	
+	}
+	
 }
 function prev(){
 	var prevOne=totalPage[curPage.pageNum];
@@ -130,12 +167,15 @@ function prev(){
 	curPage.pageNum--;
 	if(curPage.pageNum<0){
 		curPage.pageNum=0;
+	}else{
+		isTurnPage=true;
 	}
 	var curOne=totalPage[curPage.pageNum];
 	yellow.addClass(totalPage[curPage.pageNum],'in');
 	setTimeout(function(){
 		yellow.removeClass(prevOne,'play');
 		yellow.addClass(curOne,'play');
+		isTurnPage=false;
 	},500);
 }
 function next(){
@@ -144,16 +184,20 @@ function next(){
 	curPage.pageNum++;
 	if(curPage.pageNum>totalPage.length-1){
 		curPage.pageNum=totalPage.length-1;
+	}else{
+		isTurnPage=true;
 	}
 	var curOne=totalPage[curPage.pageNum];
 	yellow.addClass(totalPage[curPage.pageNum],'in');
 	setTimeout(function(){
 		yellow.removeClass(prevOne,'play');
 		yellow.addClass(curOne,'play');
+		isTurnPage=false;
 	},500);
 }
 yellow.preload([
-	"http://p2.youxi.bdimg.com/site/wx/images/dtszj-bg.jpg",
 	"z1.jpg",
-	"z2.jpg"
+	"z2.jpg",
+	"z3.jpg",
+	"z4.jpg"
 ], startScene);

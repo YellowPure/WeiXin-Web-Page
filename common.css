@@ -118,16 +118,38 @@ article .out{
     border-color: #FFD618;
     background-color: #FFD618;
 }
-#btn1{
+#btn{
     position: absolute;
-    bottom: 0px;
+    bottom: 5px;
     left: 0;
+    -webkit-animation:holdBtn 1.6s infinite;
     width: 100%;
-    height: 2.5em;
-    line-height: 2.5em;
+    height: 3em;
+}
+@-webkit-keyframes holdBtn{
+    0%,100%{-webkit-transform:translateY(0);}
+    50%{
+        -webkit-transform:translateY(-100%);
+    }
+}
+#btn>div{
+    margin: 0 auto;
+    width: 6em;
+    height: 3em;
+    overflow: hidden;
+    line-height: 5em;
     text-align: center;
-    background-color: rgba(22,83,143,0.5);
     color: #fff;
+    position: relative;
+}
+#btn>div>div{
+    width: 5em;
+    height: 5em;
+    position: absolute;
+    left: 0;
+    top: 15px;
+    border: .5em solid #ff0;
+    -webkit-transform:rotate(45deg);
 }
 
 .scene2{
@@ -135,21 +157,36 @@ article .out{
     background-size: cover;
 }
 @-webkit-keyframes showHeight{
-    0%{opacity:0;height:0;}100%{opacity:1;height:200px;}
+    0%{opacity:0;width: 0;}100%{opacity:1;width: 100%;}
+}
+.scene2.play .tlt{
+    -webkit-transform:translate3D(0,0,0);
+    -webkit-animation-name:showHeight;
 }
 .scene2 .tlt{
     opacity: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    height: 2em;
     font-size: 20px;
-    color: rgb(4,11,39);
-    -webkit-transform:translate3D(0,0,0);
-    -webkit-animation-name:showHeight;
-    -webkit-animation-duration:5s;
+    color: rgb(79,197,199);
+    -webkit-animation-duration:2s;
     -webkit-animation-fill-mode:both;
-    -webkit-animation-delay:1s;
-    text-indent: -999em;
-    background: url(http://ossweb-img.qq.com/images/wuxia/act/a20141202bigdata/end.png) no-repeat 0 0;
+    /*text-indent: -999em;*/
+    /*background: url(http://ossweb-img.qq.com/images/wuxia/act/a20141202bigdata/end.png) no-repeat 0 0;*/
 }
 .scene3{
     background: url(z3.jpg) center 0 no-repeat;
     background-size: cover;
+}
+.scene3 .drink{
+    -webkit-transform:scale(0);
+    -webkit-transition:all .5s;
+    background: url(z4.jpg) center 0 no-repeat;
+    background-size: cover;
+    width: 10em;
+    height: 5em;
+}
+.scene3.play .drink{
+    -webkit-transform:scale(1);
 }
