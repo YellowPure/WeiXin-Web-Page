@@ -1,0 +1,14 @@
+{
+	// 'images': {
+	// 	'url':'http://youxi.baidu.com/zzhx/logistics-station/images',
+	// 	'group_id':'1'
+	// },
+	'yellow.js': {
+		'url':'http://youxi.baidu.com/test/test61',
+		'group_id':'1'
+	},
+	'common.css': {
+		'url':'http://youxi.baidu.com/test/test61',
+		'group_id':'1'
+	}
+}

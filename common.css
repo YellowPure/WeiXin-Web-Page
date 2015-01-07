@@ -16,12 +16,25 @@ a{cursor:pointer;}
 a:hover{text-decoration: none;}
 body{font:12px/24px 'Microsoft YaHei';}
 em,i{font-style:normal}
+.block{display: block!important;}
+.none{display: none;}
 /* page */
 body,html{
 	background: #000;
 	height: 100%;
 	width: 100%;
     position: absolute;
+}
+/*debug*/
+#debug{
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 200px;
+    height: 200px;
+    background-color: #000;
+    color: #fff;
+    z-index: 999;
 }
 /* loading */
 .loading{
@@ -53,29 +66,34 @@ body,html{
     background: -ms-linear-gradient(#72a8ea, #003e8a);
     background: linear-gradient(#72a8ea, #003e8a);
 }
-article{
-    height: 100%;
+.wrapper{
     width: 100%;
+    height: 100%;
     position: absolute;
+    overflow: hidden;
     left: 0;
-    bottom: 0;
-    margin: 0;
     top: 0;
+    margin:0;
+}
+.main{
+    position: relative;
+    width: 100%;
+    height: 100%;
     overflow: hidden;
 }
-article .keyFrame{
+.keyFrame{
     -webkit-transform:translateY(-100%);
 }
-article .in{
+.in{
     -webkit-transform:translateY(0);
 }
 .in ~ .keyFrame{
     -webkit-transform:translateY(100%);
 }
-article .out{
+.out{
     /*-webkit-transform:translateY(100%);*/
 }
-.scene1,.scene2,.scene3{
+.scene1,.scene2,.scene3,.scene4{
     left: 0;
     top: 0;
     bottom: 0;
@@ -122,7 +140,10 @@ article .out{
     position: absolute;
     bottom: 5px;
     left: 0;
-    -webkit-animation:holdBtn 1.6s infinite;
+    -webkit-animation-name:holdBtn;
+    -webkit-animation-duration:1.5s;
+    -webkit-animation-fill-mode:both;
+    -webkit-animation-iteration-count:infinite;
     width: 100%;
     height: 3em;
 }
@@ -155,6 +176,7 @@ article .out{
 .scene2{
     background: url(z2.jpg) center 0 no-repeat;
     background-size: cover;
+    display: -webkit-flex;
 }
 @-webkit-keyframes showHeight{
     0%{opacity:0;width: 0;}100%{opacity:1;width: 100%;}
@@ -164,22 +186,119 @@ article .out{
     -webkit-animation-name:showHeight;
 }
 .scene2 .tlt{
+    position: absolute;
+    left: 0;
+    top: 0;
     opacity: 0;
     white-space: nowrap;
     overflow: hidden;
-    height: 2em;
-    font-size: 20px;
+    font-size: 2.5em;
+    line-height: 2.8em;
     color: rgb(79,197,199);
     -webkit-animation-duration:2s;
     -webkit-animation-fill-mode:both;
-    /*text-indent: -999em;*/
-    /*background: url(http://ossweb-img.qq.com/images/wuxia/act/a20141202bigdata/end.png) no-repeat 0 0;*/
 }
-.scene3{
+
+.scene2 .tips{
+    margin: auto;
+    color: rgb(255,113,226);
+    font-size: 3em;
+    opacity: 0;
+    display: none;
+}
+.scene2.play .tips{
+    -webkit-animation-name:setVisible;
+    -webkit-animation-duration:2s;
+    -webkit-animation-delay:2s;
+    -webkit-animation-iteration-count:infinite;
+}
+@-webkit-keyframes setVisible{
+    0%{
+        opacity: 1;
+        -webkit-transform:scale(1);
+    }
+    25%{-webkit-transform:scale(1.5);}
+    50%{-webkit-transform:scale(.9);}
+    75%{-webkit-transform:scale(1.5);}
+    100%{
+        opacity: 1;
+        -webkit-transform:scale(.9);
+    }
+}
+.scene2 .hands{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 10em;
+    height: 10em;
+    background: url(z5.gif) center 0 no-repeat;
+    background-size: cover;
+    -webkit-transition:-webkit-transform .5s ease-out 2s;
+    -webkit-transform:translate(-100%,0);
+}
+.scene2.play .hands{
+    -webkit-transform:translate(0,0);
+}
+.scene2 .progress-line{
+    display: block;
+    width: 100%;
+    height: 0;
+    background-color: #ff0;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+.scene2 .shakegame{
+    display: none;
+    margin: auto;
+}
+.scene2 .shakegame_milk{
+    background: url(z6.jpg) center 0 no-repeat;
+    background-size: cover;
+    width: 20em;
+    height: 19em;
+}
+.scene2 .turn_color{
+    -webkit-animation-name:turn_color;
+    -webkit-animation-fill-mode:both;
+    -webkit-animation-duration:1.5s;
+    -webkit-animation-iteration-count:infinite;
+}
+@-webkit-keyframes turn_color{
+    0%{
+        color:#f00;
+    }
+    50%{
+        color: #ff0;
+    }
+    100%{
+        color: #f00;
+    }
+}
+.scene2 .progress-bar{
+    position: absolute;
+    opacity: 0;
+    right: 1em;
+    bottom: .5em;
+    width: 1em;
+    height: 20em;
+    border: 1px solid #f00;
+    background-color: #000;
+    border-radius: 2px;
+}
+
+.scene2.play .progress-bar{
+    -webkit-animation:showBar .5s linear 2s;
+    -webkit-animation-fill-mode:both;
+}
+@-webkit-keyframes showBar{
+    0%{opacity: 0;}100%{opacity: 1;}
+}
+.scene3,.scene4{
     background: url(z3.jpg) center 0 no-repeat;
     background-size: cover;
 }
-.scene3 .drink{
+.scene3 .drink,.scene4 .drink{
     -webkit-transform:scale(0);
     -webkit-transition:all .5s;
     background: url(z4.jpg) center 0 no-repeat;
@@ -187,6 +306,6 @@ article .out{
     width: 10em;
     height: 5em;
 }
-.scene3.play .drink{
+.scene3.play .drink,.scene4.play .drink{
     -webkit-transform:scale(1);
 }
